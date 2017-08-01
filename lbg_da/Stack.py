@@ -18,6 +18,7 @@ def stack(spec_atr,basestring, s2n,dv):
     from linetools.spectra.xspectrum1d import XSpectrum1D
     import astropy.units as u
     from array import array
+    import pdb
 
     # initial filter on speclist to ensure a successful rebin
 
