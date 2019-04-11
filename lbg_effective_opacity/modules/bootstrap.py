@@ -1,20 +1,18 @@
-def covariance_error(spec, N, stack):
-
+def cov_err(spec, N, stack):
     """
-
     :param spec: XSpectrum1D collated object :rest_spec from the stacking modules
     :param N: number of iterations for the bootstrap
     :param stack: XSpectrum1D stack that you are calculating the error of
     :return: error array to be combined with stacked spectra
 
-
     """
 
     import numpy as np
+    from numpy import random as ran
+
+
     from linetools.spectra import utils as ltsu
     from linetools.spectra.xspectrum1d import XSpectrum1D
-    import astropy.units as u
-    from numpy import random as ran
 
     print("Number of spectra provided =", spec.nspec)
 
@@ -24,7 +22,7 @@ def covariance_error(spec, N, stack):
 
     N_stack = []
 
-    for i in np.arange(N): #this should take a while!
+    for i in np.arange(N):  # this should take a while!
 
         choice = np.asarray(ran.randint(0, R, R))  # the shuffle
 
@@ -33,7 +31,6 @@ def covariance_error(spec, N, stack):
         rand_collate = ltsu.collate(rand_spec)  # collate and stack
 
         N_stack.append(ltsu.smash_spectra(rand_collate))
-
 
     N_flux = np.array([entry.flux for entry in N_stack])  # getting into a np.array for matrix math
 
@@ -45,6 +42,8 @@ def covariance_error(spec, N, stack):
 
     sigma = np.sqrt(np.diagonal(covariance) / (N - 1))  # the final error array
 
-    composite = XSpectrum1D(stack.wavelength,stack.flux, sig = sigma)
+    composite = XSpectrum1D(stack.wavelength, stack.flux, sig=sigma)
+
+    composite.plot()
 
     return composite
