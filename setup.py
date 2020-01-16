@@ -18,7 +18,7 @@ setup_keywords = dict()
 #
 # THESE SETTINGS NEED TO BE CHANGED FOR EVERY PRODUCT.
 #
-setup_keywords['name'] = 'LBG DA'
+setup_keywords['name'] = 'LBG_DA'
 setup_keywords['description'] = 'Data and Analysis of DA using LBGs'
 setup_keywords['author'] = 'Monzon & Associates'
 setup_keywords['author_email'] = 'jmonzon@ucsc.edu'
