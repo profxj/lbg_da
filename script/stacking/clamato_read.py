@@ -1,9 +1,10 @@
 def xspec(z_bin, plot=False):
     
     """
-    :param z_bin: array of min and max redshift(z) values of the desired bin ex:[2.0,2.5]
-    :return: array of XSpectrum1D objects, corresponding redshifts and coordiantes
+    :param z_bin: (list) min and max redshift values of the desired bin ex:[2.0,2.5]
 
+    :return:
+        (numpy array) XSpectrum1D objects, corresponding redshifts and coordinates
     """
 
     import numpy as np

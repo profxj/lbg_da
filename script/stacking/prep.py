@@ -1,9 +1,11 @@
 def clean(spec, red):
     
     """
-    :param spec: [array] of XSpectrum1D objects
-    :param red: [array] of their redshift values (z)
-    :returns: [array] of truncatted, normalized and restframed XSpectrum1D objects
+    :param spec: (numpy array) XSpectrum1D objects
+    :param red: (numpy array) their redshift values (z)
+
+    :returns:
+        rest_spec: (numpy array) truncatted, normalized and restframed XSpectrum1D objects
     """
     
     import numpy as np

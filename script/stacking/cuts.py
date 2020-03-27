@@ -1,9 +1,12 @@
 def lyman_limit(spec, red, coord, plot=False):
     
     """
-    :param spec: [array] of XSpectrum1D objects: use clamato_read.py
-    :param red: [array] of their redshift values (z)
-    :param coord: [array] of coordinates
+    :param spec: (numpy array) XSpectrum1D objects: use clamato_read.py
+    :param red: (numpy array) redshift values
+    :param coord: (numpy array) coordinates
+
+    :return:
+        the shortened versions of the three input arrays
     """
     
     import numpy as np
@@ -77,10 +80,12 @@ def lyman_limit(spec, red, coord, plot=False):
 def s2n(spec, red, coord, plot=False):
     
     """
-    :param spec: [array] of XSpectrum1D objects: use clamato_read.py
-    :param red: [array] of their redshift values (z)
-    :param coord: [array] of coordinates
-    :param s2n: [float] lowest value of S/N to include in the cut
+    :param spec: (numpy array) XSpectrum1D objects: use clamato_read.py
+    :param red: (numpy array) redshift values
+    :param coord: (numpy array) coordinates
+
+    :return:
+        the shortened versions of the three input arrays
     """
     
     import numpy as np

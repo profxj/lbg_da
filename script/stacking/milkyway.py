@@ -1,10 +1,12 @@
 def extinction(spec, red, coord):
     
     """
-    :param spec: [array] of XSpectrum1D objects: use clamato_read.py
-    :param red: [array] of their redshift values (z)
-    :param coord: [array] of coordinates
-    :return: [array] of unreddened Xspectrum1D objects
+    :param spec: (numpy array) XSpectrum1D objects: use clamato_read.py
+    :param red: (numpy array) redshift values
+    :param coord: (numpy array) coordinates
+
+    :return:
+        unred_spec: (numpy array) de-reddened spec
     """
     
     import numpy as np

@@ -1,9 +1,9 @@
 def stacks(spec, red, N, zbin, plot=False):
     """
-    :param spec: XSpectrum1D collated object :rest_spec from the stacking modules
-    :red: redshift array
-    :param N: number of iterations for the bootstrap
-    :param zbinn: which bin is being used (str) "lowz" or "hiz"
+    :param spec: (numpy array) XSpectrum1D objects
+    :param red: (numpy array) their redshift values (z)
+    :param N: (int) number of bootstrap iterations
+    :param zbin: (str) redshift bin "lowz" or "hiz"
     """
 
     import numpy as np
