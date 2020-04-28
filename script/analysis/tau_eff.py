@@ -45,6 +45,8 @@ def composite(zbin):
     tau_eff = -np.log(flux[lya_mask] / model[lya_mask])
     z_eff = (wave[lya_mask]/ 1216) * (1 + z_med) - 1
 
+    tau_eff = kirkman_correction(tau_eff, z_eff, plot=False, p=False)
+
     return tau_eff, z_eff, lya_mask, z_med
 
 def bootstrap(zbin, N, lya_mask, z_med):
@@ -65,9 +67,6 @@ def bootstrap(zbin, N, lya_mask, z_med):
     stacks = fits.open("/Users/jsmonzon/lbg_da/fits_data/bootstrap/observed/"+zbin+"/stacks.fits")
     wave = stacks[1].data["wavelength"]
 
-    tau_eff = np.zeros((N, len(wave)))
-    z_eff = np.zeros((N, len(wave)))
-
     tau_matrix = []
     z_matrix = []
 
@@ -78,10 +77,15 @@ def bootstrap(zbin, N, lya_mask, z_med):
         model = model[0].data
         flux = stacks[2].data[i]
 
-        tau_matrix.append(-np.log(flux[lya_mask] / model[lya_mask]))
-        z_matrix.append((wave[lya_mask] / 1216) * (1 + z_med) - 1)
+        tau_eff = -np.log(flux[lya_mask] / model[lya_mask])
+        z_eff = (wave[lya_mask] / 1216) * (1 + z_med) - 1
 
-    return np.array(tau_matrix), np.array(z_matrix)
+        tau_eff = kirkman_correction(tau_eff, z_eff)
+
+        tau_matrix.append(tau_eff)
+        #z_matrix.append(z_eff)
+
+    return np.array(tau_matrix) #, np.array(z_matrix)
 
 
 def covariance(tau_eff, tau_matrix):
@@ -98,7 +102,34 @@ def covariance(tau_eff, tau_matrix):
     diff_matrix = np.array([tau_matrix[i] - tau_eff for i in range(N)])
 
     tranpose = np.transpose(diff_matrix)
-    covariance = np.dot(tranpose, diff_matrix)
-    sigma = np.sqrt(np.diagonal(covariance) / (N - 1))
+    covariance = (1/(N-1))*(np.dot(tranpose, diff_matrix))
+    #sigma = np.sqrt(np.diagonal(covariance))
 
-    return sigma
+    return covariance
+
+
+def kirkman_correction(tau, red, plot=False, p=False):
+    """
+    :param tau: (numpy array) the tau_eff values from both bins
+    :param red: (numpy array) the redshift values from both bins
+
+    :return:
+        (numpy array) the corrected tau values
+    """
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    lam = 1216 * ((1 + red) / (1 + np.median(red)))  # using the pivot to return to angstroms
+
+    tau_m = np.log(1 + (0.01564 - (4.646 * 10 ** (-5) * (lam - 1360))))
+
+    if p == True:
+        print("the average percentage contributed by metals:", 100 * np.average(tau_m / tau))
+
+    if plot == True:
+        plt.scatter(red, tau, label="original")
+        plt.scatter(red, tau - tau_m, label="corrected")
+        plt.legend()
+        plt.show()
+
+    return tau - tau_m
